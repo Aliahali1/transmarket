@@ -1,8 +1,6 @@
 <!doctype html>
 <html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>الدرس الثاني: التعاملات الآمنة عبر الإنترنت</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>:root{
   --ink:#14382F; --ink2:#2C5547; --sage:#8AB79C; --sage-d:#4F8A69; --mist:#EEF5F0; --mist2:#DDEBE2;
   --gold:#D9A93A; --gold-l:#F7E7B8; --coral:#E5576B; --coral-l:#FBE0E4; --sky:#3F87B5; --sky-l:#DCEBF5;
@@ -10,7 +8,7 @@
   --r-lg:22px; --r-md:14px; --r-sm:9px;
   --sh:0 6px 22px rgba(20,56,47,.10); --sh2:0 2px 8px rgba(20,56,47,.12);
   --bookw:clamp(300px,34vw,470px);
-  --font:'Tajawal','Segoe UI',Tahoma,system-ui,sans-serif; --display:'Lalezar','Tajawal',system-ui,sans-serif;
+  --font:'Times New Roman',Times,'Noto Naskh Arabic',serif; --display:'Times New Roman',Times,'Noto Naskh Arabic',serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
@@ -424,6 +422,49 @@ h3.t{font-family:var(--display);font-weight:400;font-size:clamp(19px,2.2vw,26px)
   .bullets li::before{width:9px;height:9px;margin-top:8px}
   .fbrow .btn.sm{font-size:13px;min-height:32px;padding:2px 12px}
 }
+
+/* ===== final phone layout: right stage bar, fixed bottom nav, Times 12 ===== */
+.foot .stg,#prevBtn{display:none}
+.foot{position:relative;z-index:70}
+@media(max-width:820px){
+  html,body{font-family:'Times New Roman',Times,serif;font-size:12px}
+  #main{padding-right:0}
+  .trail{position:absolute;right:0;z-index:50;width:46px;flex-direction:column;align-items:center;gap:6px;padding:8px 0;overflow-y:auto;overflow-x:hidden;border-bottom:0;border-left:2px solid var(--mist2);box-shadow:-3px 0 10px rgba(20,56,47,.08)}
+  .trail .st,.trail .st.on{min-width:0;width:100%;flex:none;font-size:0;gap:0}
+  .trail .st::before{display:none}
+  .trail .st i{width:34px;height:34px}
+  .trail .st.jump{cursor:pointer}
+  .trail .st:not(.jump):not(.on):not(.done) i{opacity:.55}
+  #stageWrap{padding:10px 56px 14px 10px}
+  .foot{position:fixed;left:0;right:0;bottom:0;padding:6px 8px;gap:6px;box-shadow:0 -4px 14px rgba(20,56,47,.12)}
+  .foot .btn{min-height:44px;font-size:13px;padding:4px 12px;font-weight:700}
+  #prevBtn{display:inline-block;flex:0 0 auto}
+  #nextBtn{flex:1}
+  .foot .stg{display:block;flex:1.4;text-align:center;font-size:11.5px;font-weight:700;color:var(--ink);line-height:1.2}
+  .foot .msg,#tName{display:none}
+  #stageWrap{padding-bottom:calc(var(--footh,56px) + 12px)}
+  #app{height:100dvh}
+  #book{bottom:var(--footh,56px);height:56vh}
+  #bookOpen{bottom:calc(var(--footh,56px) + 8px) !important}
+  .teacher{bottom:calc(var(--footh,56px) + 4px) !important}
+  /* text 12 */
+  .top h1{font-size:15px}.top h1 small{font-size:11px}
+  .pill{font-size:11.5px}
+  .ribbon{font-size:11.5px}
+  h2.t{font-size:16px}h3.t{font-size:14px}
+  .lead,.callout,.slide p,.slide li,.pane p,.pane li,.card>p,.bullets li,.bullets,.opt,.fb,.coach,.screen{font-size:12px !important;line-height:1.65}
+  .qtext{font-size:13px;line-height:1.6}
+  .opt{padding:8px 10px}
+  .opt .k{width:26px;height:26px}
+  .tab{font-size:12px}
+  .key{font-size:11.5px}
+  .fb b{font-size:13px}
+  .tf .opt{font-size:14px}
+  .btn{font-size:12.5px}
+  .xc .f b{font-size:40px}
+  .cw-clues,.clue{font-size:12px}
+  input,textarea,select{font-size:16px}
+}
 </style></head><body>
 <div id="app"></div>
 <script>
@@ -659,18 +700,20 @@ function exitCards(el,o){
 
 /* ---------- stage engine ---------- */
 let ctxDone=false,tmr=null;
-function renderTrail(){ $('#trail').innerHTML=CFG.stages.map((s,i)=>`<div class="st ${i<ST.stage?'done':''} ${i===ST.stage?'on':''} ${ST.teacher?'jump':''}" data-i="${i}"><i>${i<ST.stage?ICON.check:ICON[s.icon]}</i><span>${s.name}</span></div>`).join('');
-  if(ST.teacher)$$('.st',$('#trail')).forEach(s=>s.onclick=()=>goStage(+s.dataset.i)) }
+function renderTrail(){ const mx=ST.max||0; $('#trail').innerHTML=CFG.stages.map((s,i)=>`<div class="st ${i<ST.stage?'done':''} ${i===ST.stage?'on':''} ${(ST.teacher||i<=mx)?'jump':''}" data-i="${i}" title="${s.name}"><i>${i<ST.stage?ICON.check:ICON[s.icon]}</i><span>${s.name}</span></div>`).join('');
+  $$('.st',$('#trail')).forEach(s=>{ const i=+s.dataset.i; if(ST.teacher||i<=mx) s.onclick=()=>{ if(i!==ST.stage)goStage(i) } }) }
+function layoutBars(){ const t=$('#trail'),h=$('.top'),r=$('#ribbon'),f=$('.foot'); if(!t||!h)return; t.style.top=(h.offsetHeight+r.offsetHeight)+'px'; t.style.bottom=(f?f.offsetHeight:0)+'px'; document.documentElement.style.setProperty('--footh',(f?f.offsetHeight:56)+'px') }
+addEventListener('resize',()=>setTimeout(layoutBars,50));
 function goStage(i){
   const w=$('#stageWrap'),old=$('#stage'); ST.stage=i; ST.tStage=Date.now(); ctxDone=false;
   const S=CFG.stages[i]; renderTrail();
   $('#ribbon').innerHTML=`<span class="tag">${ICON.bulb}الاستراتيجية: ${S.strategy}</span><span>${S.name}</span><span class="role">🎭 ${ROLES[i%ROLES.length]} · تتبادل المجموعة الأدوار في كل مرحلة</span>`;
-  const next=$('#nextBtn'); next.disabled=!ST.teacher&&!S.free; next.textContent=i===CFG.stages.length-1?'عرض نتيجتي 🏆':'المرحلة التالية ←';
+  const next=$('#nextBtn'); const prev=$('#prevBtn'); if(prev){prev.disabled=i<=0; prev.onclick=()=>{ if(ST.stage>0)goStage(ST.stage-1) }} next.disabled=!ST.teacher&&!S.free&&!(i<(ST.max||0)); next.textContent=i===CFG.stages.length-1?'نتيجتي 🏆':'التالية ←';
   $('#footMsg').textContent=S.free?'':'أكملي النشاط لتنتقلي إلى المرحلة التالية';
   const draw=()=>{ const n=document.createElement('div'); n.id='stage'; old&&old.replaceWith(n); w.scrollTop=0; if(S.page)setBook(S.page);
-    S.render({el:n,done:()=>{ if(ctxDone)return;ctxDone=true;next.disabled=false;$('#footMsg').textContent='أحسنتِ! يمكنك الانتقال الآن ✨';toast('اكتملت المرحلة ✓');confetti(50);$$('.st')[i]&&0 }}) };
+    S.render({el:n,done:()=>{ if(ctxDone)return;ctxDone=true;next.disabled=false;ST.max=Math.max(ST.max||0,i+1);renderTrail();layoutBars();$('#footMsg').textContent='أحسنتِ! يمكنك الانتقال الآن ✨';toast('اكتملت المرحلة ✓');confetti(50);$$('.st')[i]&&0 }}) };
   old?(old.classList.add('stage-out'),setTimeout(draw,230)):draw();
-  $('#tName').textContent=S.name;
+  $('#tName').textContent=S.name; $('#stg').textContent=`${AR(i+1)} / ${AR(CFG.stages.length)} · ${S.name}`; setTimeout(layoutBars,60);
 }
 const ROLES=['القارئة: تقرأ المطلوب بصوت مسموع','المجيبة: تُدخل إجابة المجموعة','المراجِعة: تتأكد من الكتاب على اليسار','المتحدثة: تشرح سبب الاختيار'];
 function nextStage(){ if(ST.stage<CFG.stages.length-1)goStage(ST.stage+1); else finalScreen() }
@@ -681,7 +724,7 @@ function tick(){ if(ST.stage<0)return; const S=CFG.stages[ST.stage]; const el=Ma
 
 /* ---------- welcome ---------- */
 function welcome(){
-  $('#ribbon').innerHTML=`<span class="tag">${ICON.book}${CFG.lessonNo}</span><span>التعاملات عبر الإنترنت — مهارات رقمية — الصف الثالث المتوسط</span>`; $('#nextBtn').style.display='none'; $('#footMsg').textContent='';
+  $('#ribbon').innerHTML=`<span class="tag">${ICON.book}${CFG.lessonNo}</span><span>التعاملات عبر الإنترنت — مهارات رقمية — الصف الثالث المتوسط</span>`; $('#nextBtn').style.display='none';$('#prevBtn').style.display='none';$('#stg').textContent=''; $('#footMsg').textContent='';
   $('#stage').innerHTML=`<div class="welcome"><div class="card"><h2 class="t">${CFG.title}</h2><p class="lead">${CFG.intro}</p><h3 class="t">أهداف الدرس</h3><div class="obj">${CFG.objectives.map(o=>`<div>${ICON[o.icon]}<span>${o.text}</span></div>`).join('')}</div>
    <div class="callout gold" style="margin-top:14px">${ICON.star}<div><b>كيف أجمع النقاط؟</b> أجيبي بإجابة صحيحة من المحاولة الأولى لتأخذي ١٠ نقاط، ومن الثانية ٥ نقاط. وكل ٣ إجابات صحيحة متتالية تشعل 🔥 سلسلة الإجابات.</div></div>
    <div class="card"><h3 class="t">${ICON.user.replace('<svg','<svg width="34" height="34"')} ابدئي رحلتك</h3>
@@ -691,14 +734,14 @@ function welcome(){
     <p style="margin-top:10px"><label><input type="checkbox" id="inSnd"> تشغيل المؤثرات الصوتية</label></p>
     <div class="fbrow"><button class="btn gold" id="go" disabled>ابدئي الدرس 🚀</button></div></div></div>`;
   const n=$('#inName'); n.oninput=()=>$('#go').disabled=n.value.trim().length<2;
-  $('#go').onclick=()=>{ ST.name=n.value.trim(); ST.group=$('#inGrp').value.trim(); ST.sound=$('#inSnd').checked; ST.t0=Date.now(); $('#nextBtn').style.display=''; $('.hud').style.visibility='visible'; $('#stageWrap').innerHTML='<div id="stage"></div>'; goStage(0); beep(520,.1); };
+  $('#go').onclick=()=>{ ST.name=n.value.trim(); ST.group=$('#inGrp').value.trim(); ST.sound=$('#inSnd').checked; ST.t0=Date.now(); $('#nextBtn').style.display='';$('#prevBtn').style.display=''; $('.hud').style.visibility='visible'; $('#stageWrap').innerHTML='<div id="stage"></div>'; goStage(0); beep(520,.1); };
 }
 
 /* ---------- final screen + results ---------- */
 function totals(){ let p=0,m=0; Object.values(ST.sec).forEach(s=>{ if(s.graded&&s.max){p+=Math.min(s.pts,s.max);m+=s.max} }); return {p,m,pct:m?Math.round(p/m*100):0} }
 function finalScreen(){
   ST.stage=CFG.stages.length; renderTrail(); clearInterval(tmr);
-  $('#nextBtn').style.display='none'; $('#footMsg').textContent=''; $('#ribbon').innerHTML=`<span class="tag">${ICON.trophy}نتيجتك</span><span>تقويم ذاتي وإرسال النتيجة</span>`;
+  $('#nextBtn').style.display='none';$('#prevBtn').style.display='none';$('#stg').textContent=''; $('#footMsg').textContent=''; $('#ribbon').innerHTML=`<span class="tag">${ICON.trophy}نتيجتك</span><span>تقويم ذاتي وإرسال النتيجة</span>`;
   const T=totals(), stars=T.pct>=85?3:T.pct>=60?2:1; if(T.pct>=85)award('top','نجمة الدرس');
   const mins=Math.round((Date.now()-ST.t0)/60000);
   const w=$('#stageWrap'); w.innerHTML=`<div id="stage"><div class="card" style="text-align:center"><h2 class="t">أحسنتِ يا ${esc(ST.name)}! أكملتِ الدرس</h2>
@@ -724,14 +767,14 @@ function exportCSV(){ let a=[];try{a=JSON.parse(localStorage.getItem('res_'+CFG.
 function boot(cfg){
   CFG=cfg; document.title=cfg.title;
   $('#app').insertAdjacentHTML('afterbegin',`<aside id="book" aria-label="الكتاب"><div class="book-top"><b>📖 كتاب الطالبة</b><button class="bk-btn" id="bkZoom" title="تكبير">🔍</button><button class="bk-btn" id="bkHide" title="إخفاء">✕</button></div><div class="book-view" id="bookView"></div><div class="book-nav"><button class="bk-btn" id="bkPrev" aria-label="الصفحة التالية">‹</button><span id="bkLbl"></span><button class="bk-btn" id="bkNext" aria-label="الصفحة السابقة">›</button></div></aside>
-  <main id="main"><header class="top"><h1>${cfg.title}<small>${cfg.lessonNo} · ${cfg.unit}</small></h1><div class="hud" style="visibility:hidden"><span class="pill gold" id="ptsPill">⭐ <b>٠</b> نقطة</span><span class="pill" id="strPill">🔥 <b>٠</b></span><span class="pill timer" id="tmr"></span><span class="pill" id="tot"></span></div></header><nav class="trail" id="trail" aria-label="مراحل الدرس"></nav><div class="ribbon" id="ribbon"></div><div id="stageWrap"><div id="stage"></div></div><footer class="foot"><span class="pill" id="tName" style="background:var(--mist2);color:var(--ink)"></span><span class="msg" id="footMsg"></span><button class="btn" id="nextBtn" disabled>المرحلة التالية ←</button></footer></main>`);
+  <main id="main"><header class="top"><h1>${cfg.title}<small>${cfg.lessonNo} · ${cfg.unit}</small></h1><div class="hud" style="visibility:hidden"><span class="pill gold" id="ptsPill">⭐ <b>٠</b> نقطة</span><span class="pill" id="strPill">🔥 <b>٠</b></span><span class="pill timer" id="tmr"></span><span class="pill" id="tot"></span></div></header><nav class="trail" id="trail" aria-label="مراحل الدرس"></nav><div class="ribbon" id="ribbon"></div><div id="stageWrap"><div id="stage"></div></div><footer class="foot"><button class="btn ghost" id="prevBtn" disabled>→ السابقة</button><span class="pill" id="tName" style="background:var(--mist2);color:var(--ink)"></span><span class="msg" id="footMsg"></span><span class="stg" id="stg"></span><button class="btn" id="nextBtn" disabled>المرحلة التالية ←</button></footer></main>`);
   document.body.insertAdjacentHTML('beforeend',`<button id="bookOpen">📖 الكتاب</button><div id="toast" role="status"></div><canvas id="fx"></canvas>`);
   showBook(0); $('#bkPrev').onclick=()=>showBook(bi+1); $('#bkNext').onclick=()=>showBook(bi-1);
   $('#bkZoom').onclick=()=>zoom(CFG.book.pages[bi].src);
   $('#bkHide').onclick=()=>{ $('#app').classList.remove('sheet-open'); if(innerWidth>820){$('#app').classList.add('book-off');$('#bookOpen').classList.add('show')} };
   $('#bookOpen').onclick=()=>{ $('#app').classList.remove('book-off'); $('#app').classList.toggle('sheet-open'); $('#bookOpen').classList.remove('show') };
   $('#nextBtn').onclick=nextStage; renderTrail(); tmr=setInterval(tick,1000);
-  if(ST.teacher){ document.body.insertAdjacentHTML('beforeend',`<div class="teacher"><b>وضع المعلمة</b><button class="btn sm ghost" id="tSkip">تخطّي المرحلة</button><button class="btn sm ghost" id="tCsv">نتائج الجهاز CSV</button></div>`); $('#tSkip').onclick=()=>{ if(ST.stage<0){ST.name='معلمة';ST.t0=Date.now();$('#nextBtn').style.display='';$('.hud').style.visibility='visible';goStage(0)} else nextStage() }; $('#tCsv').onclick=exportCSV }
+  if(ST.teacher){ document.body.insertAdjacentHTML('beforeend',`<div class="teacher"><b>وضع المعلمة</b><button class="btn sm ghost" id="tSkip">تخطّي المرحلة</button><button class="btn sm ghost" id="tCsv">نتائج الجهاز CSV</button></div>`); $('#tSkip').onclick=()=>{ if(ST.stage<0){ST.name='معلمة';ST.t0=Date.now();$('#nextBtn').style.display='';$('#prevBtn').style.display='';$('.hud').style.visibility='visible';goStage(0)} else nextStage() }; $('#tCsv').onclick=exportCSV }
   welcome();
 }
 </script>

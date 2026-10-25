@@ -350,6 +350,70 @@ h3.t{font-family:var(--display);font-weight:400;font-size:clamp(19px,2.2vw,26px)
   body{font-size:17px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+
+/* ===== phone-friendly layout ===== */
+@media(max-width:820px){
+  body{font-size:15px}
+  .top{padding:6px 10px;gap:4px 8px;flex-wrap:wrap}
+  .top h1{font-size:17px;min-width:0;flex:1 1 100%}
+  .top h1 small{font-size:11px}
+  .hud{gap:5px;width:100%;flex-wrap:nowrap;overflow-x:auto}
+  .pill{font-size:12.5px;padding:1px 9px}
+  #tot,#tName{display:none}
+  .trail{padding:6px 6px 2px;scrollbar-width:none}
+  .trail::-webkit-scrollbar{display:none}
+  .trail .st{min-width:44px;font-size:0}
+  .trail .st.on{font-size:12px;min-width:80px}
+  .st i{width:30px;height:30px;border-width:2px}
+  .st i svg{width:17px;height:17px}
+  .st::before{top:14px;height:3px}
+  .st.on i{transform:scale(1.1);box-shadow:0 0 0 4px rgba(138,183,156,.45)}
+  .ribbon{padding:4px 10px;font-size:12.5px;gap:6px;flex-wrap:nowrap;overflow:hidden}
+  .ribbon .tag{padding:0 8px;white-space:nowrap}
+  .ribbon .tag svg{width:15px;height:15px}
+  .ribbon .role{display:none}
+  .ribbon>span:not(.tag){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #stageWrap{padding:10px 10px 16px}
+  .card{padding:12px 13px;border-radius:16px}
+  .card + .card{margin-top:10px}
+  h2.t{font-size:20px}
+  h3.t{font-size:17px}
+  .lead{font-size:14px;margin-bottom:6px}
+  .callout{font-size:14px;padding:8px 10px;gap:8px}
+  .callout svg{width:24px;height:24px}
+  .qtext{font-size:16.5px;line-height:1.6;margin:4px 0 10px}
+  .opts{gap:7px}
+  .opt{font-size:15px;padding:9px 11px;min-height:44px}
+  .bullets li,.bullets{font-size:14.5px}
+  .foot{padding:6px 10px;gap:8px}
+  .foot .msg{display:none}
+  .foot .btn{flex:1;font-size:16px;min-height:46px}
+  .btn{padding:6px 18px}
+  .tabs,.tabbar{overflow-x:auto;flex-wrap:nowrap}
+  .tab{white-space:nowrap;font-size:13.5px;padding:6px 10px}
+  .keys{grid-template-columns:repeat(2,1fr);gap:8px}
+  .key{font-size:12.5px;padding:8px 6px}
+  .key svg{width:30px;height:30px}
+  .teacher{bottom:64px !important;left:4px !important;transform:scale(.8);transform-origin:bottom left}
+  #bookOpen{bottom:64px !important;left:8px;padding:5px 12px;font-size:13px}
+  .big-ico{width:56px !important;height:56px !important}
+  .xc{min-height:90px}
+  .screen{font-size:13.5px}
+  .phone{max-width:100%}
+  .coach{font-size:13.5px}
+  .shop-head nav button{font-size:12px;padding:3px 6px}
+}
+@media(max-width:480px){
+  #main .row{gap:8px}
+  .welcome h2,.welcome h1{font-size:22px}
+  .ctable{font-size:12px}
+  .ctable td,.ctable th{padding:4px 3px}
+}
+@media(max-width:820px){
+  .prods{grid-template-columns:repeat(2,1fr) !important;gap:8px}
+  .prod{padding:8px 6px}.prod svg{width:52px;height:52px}
+  .shop-body h1{font-size:22px}
+}
 </style></head><body>
 <div id="app"></div>
 <script>
@@ -663,20 +727,20 @@ function boot(cfg){
 </script>
 <script>/* ===== الدرس الثاني: التعاملات الآمنة عبر الإنترنت (ص ١١٥–١٢٣) ===== */
 const KEYS=[
- {icon:'laptop',t:'حدّثي البرامج في أجهزتك',page:116,body:()=>bullets(['يُوصى بتثبيت آخر التحديثات للبرامج والتطبيقات؛ لأن خيارات الأمان تتحدّث باستمرار في تلك التطبيقات لحمايتها من الفيروسات والمتسلّلين.','تأكدي من تثبيت برنامج لمكافحة الفيروسات وتحديثه باستمرار.','تقدّم متصفحات الإنترنت إمكانات تشفير مدمجة، تشفّر المعلومات التي ترسلها إلى الخادم بأحدث تقنيات التشفير، مثل <b>بروتوكول طبقة المقابس الآمنة (SSL — Secure Sockets Layer)</b>.'])},
- {icon:'lock',t:'كوني حذرة عند تسوقك',page:116,body:()=>`<p>قبل إدخال أي معلومات حساسة، تأكدي من أن موقع المتجر أو التطبيق الذي تستخدمينه <b>آمن</b>:</p>${bullets(['ابحثي عن <b>رمز قفل صغير</b> يوجد عادةً في رابط الموقع (URL) أعلى الصفحة الإلكترونية، وهو يشير إلى أن جميع البيانات التي تُدخَل إلى الموقع محمية بواسطة <b>بروتوكول أمان طبقة النقل (TLS — Transport Layer Security)</b>.','تحقّقي أيضًا من أن شريط العناوين أعلى الصفحة يبدأ بـ <span class="en">https</span> بدلًا من <span class="en">http</span>؛ لأن حرف <span class="en">s</span> يعني «آمن» <span class="en">Secure</span>.'])}`},
- {icon:'shield',t:'ابحثي عن إشارات الثقة والشهادات الرقمية',page:116,body:()=>`<p>الشهادات الرقمية شعارات تتحقق من الموقع الإلكتروني الذي تتعاملين معه. من خلال الضغط على الشعار يمكنك التأكد من أن الموقع حقيقي، وليس نسخة مزيفة من موقع الشركة الأصلية أُنشئت لجمع معلوماتك الشخصية والمالية.</p>`},
- {icon:'docs',t:'اقرئي اتفاقية الخصوصية',page:116,body:()=>`<p>يجب الحفاظ على سرية المعلومات التي تُدخَل على الموقع الإلكتروني. تأكدي من قراءة سياسة خصوصية الشركة لضمان عدم بيع معلوماتك الشخصية للآخرين.</p>`},
- {icon:'key',t:'لا تكشفي أو تشاركي كلمات مرورك أو معلومات معرّف المستخدم مع الآخرين',page:116,body:()=>bullets(['استخدمي كلمة مرور قوية، وفعّلي خيار <b>المصادقة المزدوجة (Two-Factor Authentication)</b>.','لا تزوّدي هذه البيانات لأي جهة تطلبها عبر البريد الإلكتروني أو وسائل التواصل الأخرى؛ فهذه غالبًا ما تكون <b>عملية احتيال</b> للوصول إلى بياناتك المالية والشخصية.','تذكّري تسجيل الخروج من حساباتك عند استخدام أجهزة الحاسب العامة أو المشتركة.'])},
- {icon:'receipt',t:'احتفظي بسجلات معاملاتك عبر الإنترنت',page:116,body:()=>`<p>استخدمي قدر الإمكان طرق الدفع الآمنة مثل باي بال، واحرصي على مراقبة كشوفات بطاقتك الائتمانية والتأكد من دقتها.</p>`},
- {icon:'mail',t:'بعد شرائك عبر الإنترنت تحقّقي من بريدك الإلكتروني',page:116,body:()=>`<p>غالبًا ما يرسل التجار رسائل بريد إلكتروني أو غيرها للتأكيد على طلبك.</p>`}
+ {icon:'laptop',t:'حدّثي برامج أجهزتك',page:116,body:()=>bullets(['ثبّتي آخر التحديثات؛ فخيارات الأمان تتحدّث باستمرار.','ثبّتي برنامج مكافحة الفيروسات وحدّثيه.','المتصفحات تشفّر ما ترسلينه، مثل <span class="en">SSL</span>.'])},
+ {icon:'lock',t:'كوني حذرة عند التسوق',page:116,body:()=>bullets(['ابحثي عن <b>رمز القفل</b> في رابط الموقع (محمي بـ <span class="en">TLS</span>).','تأكدي أن العنوان يبدأ بـ <span class="en">https</span> وليس <span class="en">http</span>؛ فحرف <span class="en">s</span> يعني «آمن».'])},
+ {icon:'shield',t:'ابحثي عن إشارات الثقة',page:116,body:()=>bullets(['الشهادات الرقمية شعارات تتحقق من الموقع.','اضغطي الشعار لتتأكدي أن الموقع حقيقي وليس نسخة مزيفة.'])},
+ {icon:'docs',t:'اقرئي اتفاقية الخصوصية',page:116,body:()=>bullets(['تأكدي أن الشركة لن تبيع معلوماتك الشخصية للآخرين.'])},
+ {icon:'key',t:'لا تشاركي كلمات مرورك',page:116,body:()=>bullets(['استخدمي كلمة مرور قوية وفعّلي <b>المصادقة المزدوجة</b>.','لا ترسليها لمن يطلبها بالبريد؛ فغالبًا هي <b>احتيال</b>.','سجّلي الخروج من الأجهزة العامة.'])},
+ {icon:'receipt',t:'احتفظي بسجلات معاملاتك',page:116,body:()=>bullets(['استخدمي طرقًا آمنة مثل باي بال.','راقبي كشف بطاقتك وتأكدي من دقته.'])},
+ {icon:'mail',t:'تحقّقي من بريدك بعد الشراء',page:116,body:()=>bullets(['غالبًا يرسل التاجر رسالة تؤكد طلبك.'])}
 ];
 
 const FLAGS=[
- {icon:'tag',t:'التخفيضات الكبيرة',d:'تدعو بعض شركات الأمن الرقمي إلى الحذر من الصفقات التي تكون فيها قيمة الخصومات عالية جدًا.'},
- {icon:'eye',t:'موقع ذو تصميم رديء أو لغة غير سليمة',d:'يحرص تجار التجزئة الحقيقيون كثيرًا على تقديم أفضل تجربة على الإنترنت، بمواقع جذابة وتصميمات احترافية؛ لذلك قد يكون التصميم الرديء واللغة غير السليمة من علامات الاحتيال الإلكتروني.'},
- {icon:'mail',t:'خيارات اتصال (تواصل) محدودة أو مشبوهة',d:'مثل عرض نموذج اتصال فقط، أو استخدام بريد إلكتروني لخدمة العملاء بحساب ياهو أو جي ميل مثلًا، وليس حساب شركة.'},
- {icon:'link',t:'عناوين URL تحتوي على كلمات أو أحرف غريبة أو نطاقات غير عادية',d:'تستخدم معظم المتاجر اسم علامتها التجارية فقط في العناوين الإلكترونية، ونطاقات معروفة مثل com. أما المواقع الاحتيالية فتستخدم كلمات إضافية للعلامة التجارية ونطاقات غريبة مثل app. أو bargain وغيرها.'}
+ {icon:'tag',t:'خصومات كبيرة جدًا',d:'احذري الصفقات ذات الخصم العالي جدًا.'},
+ {icon:'eye',t:'تصميم رديء ولغة غير سليمة',d:'المتاجر الحقيقية تهتم بمظهر احترافي.'},
+ {icon:'mail',t:'تواصل محدود أو مشبوه',d:'نموذج اتصال فقط، أو بريد ياهو/جي ميل بدل بريد الشركة.'},
+ {icon:'link',t:'رابط بكلمات أو نطاق غريب',d:'المتجر الحقيقي: اسم العلامة ونطاق مثل .com؛ والمزيف: كلمات إضافية ونطاق مثل .app أو bargain.'}
 ];
 
 /* ---------- animation: secure connection ---------- */
@@ -801,10 +865,10 @@ const L2={
 
  {name:'المحور الأول',icon:'shield',minutes:9,strategy:'التعلم بالاكتشاف («المفتش الرقمي»)',render(c){
    const F={keys:false,url:false,enc:false,flags:false}; const chk=()=>{ if(F.keys&&F.url&&F.enc&&F.flags){c.done();award('ax1','مفتشة رقمية','shield')} };
-   c.el.innerHTML=`<h2 class="t">المحور الأول: التعاملات الآمنة وعمليات الاحتيال</h2><p class="lead">أنجزي المهام في التبويبات الثلاثة: افتحي المفاتيح السبعة، وافحصي الروابط، وشغّلي التشفير، واكتشفي علامات الاحتيال.</p><div id="tb"></div>`;
+   c.el.innerHTML=`<h2 class="t">المحور الأول: التعاملات الآمنة وعمليات الاحتيال</h2><p class="lead">أنجزي المهام في التبويبات الثلاثة.</p><div id="tb"></div>`;
    tabs($('#tb',c.el),{tabs:[
     {title:'مفاتيح الأمان السبعة',icon:'key',page:116,render:p=>{
-      p.innerHTML=`<div class="card"><p class="lead">${ICON.shield.replace('<svg','<svg width="26" height="26" style="vertical-align:middle"')} بعض نصائح الأمان لإتمام التعاملات المالية عبر الإنترنت. وزّعي المفاتيح السبعة على أفراد مجموعتك وتبادلن الشرح.</p><div class="keys">${KEYS.map((k,i)=>`<button class="key" data-k="${i}">${ICON[k.icon]}<span>${k.t}</span></button>`).join('')}</div><div id="kd"></div></div><div id="ur" style="margin-top:14px"></div>`;
+      p.innerHTML=`<div class="card"><p class="lead">${ICON.shield.replace('<svg','<svg width="26" height="26" style="vertical-align:middle"')} نصائح الأمان للتعاملات المالية. افتحي المفاتيح السبعة وتبادلن الشرح.</p><div class="keys">${KEYS.map((k,i)=>`<button class="key" data-k="${i}">${ICON[k.icon]}<span>${k.t}</span></button>`).join('')}</div><div id="kd"></div></div><div id="ur" style="margin-top:14px"></div>`;
       const seen=new Set();
       $$('.key',p).forEach(b=>b.onclick=()=>{ const k=KEYS[+b.dataset.k]; seen.add(+b.dataset.k); $$('.key',p).forEach(x=>{x.classList.toggle('on',x===b);if(seen.has(+x.dataset.k))x.classList.add('seen')}); setBook(k.page); $('#kd',p).innerHTML=`<div class="card pane" style="background:var(--mist);margin-top:6px"><div class="row" style="align-items:center;flex-wrap:nowrap"><div class="big-ico" style="width:70px;height:70px">${ICON[k.icon]}</div><h3 class="t" style="margin:0">${k.t}</h3></div>${k.body()}<div class="fbrow"><button class="btn ghost sm" data-say="${esc(k.t+'. '+k.body().replace(/<[^>]+>/g,' '))}">🔊 استمعي</button>${pageChip(k.page)}<span class="chip">${AR(seen.size)} / ${AR(7)} مفاتيح</span></div></div>`; $('[data-say]',p).onclick=e=>speak(e.target.dataset.say); if(seen.size===7&&!F.keys){F.keys=true;toast('فتحتِ المفاتيح السبعة ✓');addPts(5,'keys',{graded:false});chk()} });
       quiz($('#ur',p),{key:'inspect',graded:false,title:'المفتش الرقمي: هل أُدخل بيانات بطاقتي؟',icon:'magnifier',tries:2,badge:['insp','عين المفتشة','magnifier'],onDone:()=>{F.url=true;chk()},items:[
@@ -813,22 +877,19 @@ const L2={
        {type:'mcq',page:119,q:`<div class="urlcase no"><div class="bar"><span class="lock">${ICON.lock}</span>https://myshop-bargain.app/pay</div></div>يوجد قفل، لكن انظري إلى اسم الموقع. ما قرارك؟`,options:['نعم، لأن عليه قفلًا','لا، فالعنوان فيه كلمة إضافية ونطاق غريب'],answer:1,why:'المتاجر الحقيقية تستخدم اسم علامتها التجارية فقط ونطاقات معروفة مثل .com، أما الاحتيالية فتضيف كلمات ونطاقات غريبة مثل .app وbargain.'},
        {type:'mcq',page:119,q:`<div class="urlcase no"><div class="bar"><span class="lock" style="opacity:.25">${ICON.lock}</span>http://super-bargain.shop/offer</div></div>ما قرارك؟`,options:['نعم، فالعرض مغرٍ','لا، فلا قفل ولا https والنطاق غريب'],answer:1,why:'اجتمع فيه غياب https والقفل مع نطاق غريب وعبارة bargain؛ وكلها علامات تحذير.'}]}) }},
     {title:'الاتصال الآمن وإشارات الثقة',icon:'lock',page:117,render:p=>{
-      p.innerHTML=`<div class="card"><h3 class="t">${ICON.lock.replace('<svg','<svg width="30" height="30" style="vertical-align:middle"')} الاتصال الآمن <span class="en">Secure connection</span></h3>
-       <p>هو اتصال تُشفَّر بياناته بواسطة بروتوكول أو أكثر من بروتوكولات الأمان لضمان أمن تدفق البيانات بين طرفين أو أكثر على الشبكة. أما الاتصالات التي لم تُشفَّر فيمكن لأي شخص لديه معرفة بكيفية القيام بذلك التجسس عليها بسهولة، وتصبح المعلومات عرضة للتهديدات من البرامج الضارة والاختراقات غير المتوقعة. وقد تتضمن هذه المعلومات بيانات مهمة مثل بيانات تسجيل الدخول وكلمات المرور والبيانات المالية.</p>
-       <div class="callout info">${ICON.shield}<div><b>بجانب حماية البيانات التي تُنقل من جهاز حاسب إلى آخر، ينبغي للاتصالات الآمنة أن تكون قادرة على:</b>${bullets(['<b>١</b> منع أي جهات خارجية من الحصول على بيانات سرية.','<b>٢</b> التحقق من هوية الشخص الذي يرغب بالوصول وتبادل البيانات.','<b>٣</b> منع أي أطراف مجهولة من استعراض أو تغيير معلومات غير مصرّح لهم بالوصول إليها.'])}</div></div>
-       <p style="margin-top:10px">هناك طرق عديدة تجعلك قادرة على إنشاء اتصال آمن، ومعظمها يتضمن <b>تشفير البيانات</b>. والتشفير أسلوب لإخفاء المعلومات عن الأطراف الأخرى غير المصرّح لها، ويتم ذلك عادةً باستخدام برامج خاصة تُشفّر البيانات في جهاز الحاسب المُرسِل، ثم يُفَكّ تشفيرها لدى الجهاز المُستقبِل.</p><div id="enc"></div></div>
-       <div class="card"><h3 class="t">${ICON.shield.replace('<svg','<svg width="30" height="30" style="vertical-align:middle"')} إشارات الثقة <span class="en">Trust Signals</span></h3>
-       <p>إشارات الثقة عناصر تُعرض غالبًا على المواقع الإلكترونية لمساعدة العملاء على الشعور بمزيد من الأمان عند اتخاذ قرارهم بشراء منتج أو خدمة معينة. وهي ليست مجرد شعارات؛ بل تتضمن تأكيدات بأن بائع التجزئة أو الموقع ينتمي فعلًا إلى مؤسسة تجارية معينة، كما تتضمن أدلة على سلوك الشركة وسمعتها وجدارتها بالثقة.</p>
-       <p>تتنوع إشارات الثقة، لكنها جميعًا تؤدي الوظيفة نفسها: أن يشعر العملاء بالثقة عند التعامل مع الشركة، وأن يطمئنوا إلى أن أموالهم آمنة وأنهم سيحصلون على المنتج أو الخدمة التي دفعوا مقابلها. ولذلك فهي عنصر مهم في اكتساب العملاء الذين يشترون من موقعك إذا كنتِ تخططين لممارسة التجارة الإلكترونية.</p>
-       <p>ينبغي وضع شعارات الأمان ورموز حماية التعاملات وإشارات الثقة المشابهة على الصفحات التي تطلب معلومات حساسة، مثل تفاصيل بطاقة الائتمان في صفحات الدفع. ويمكن أيضًا وضعها بشكل استراتيجي على صفحات المنتجات، خاصةً إذا كانت الشركة تقدم برامج أو خدمات عبر الإنترنت تعتمد على تكامل بيانات المستخدم أو الخصوصية.</p>
-       <h3 class="t" style="font-size:20px">أمثلة على إشارات الثقة</h3><div class="two"><div class="callout info">${ICON.shield}<div><b>التحقق بواسطة فيزا (Verified by Visa)</b><br>يشير إلى أن المعاملة ستكون محمية من الاحتيال من قبل أحد أكبر مزودي الخدمات المالية في العالم. وتؤكد هذه الإشارة مصداقية الموقع وأمن البيانات المتبادلة خلال عملية الشراء.</div></div>
-       <div class="callout info">${ICON.check}<div><b>نورتون سيل (Norton Seal)</b><br>إحدى العلامات الأكثر موثوقية، وتضمن لأصحاب الأعمال التجارية على الإنترنت وللمشترين أن عملياتهم لن تُخترق أثناء الإرسال. ويمكن عرض هذا الختم على الموقع بعد أن يصادق ديجي سيرت (Digicert) على أعمال الموقع وخلوّه من أي برامج ضارة.</div></div></div></div>`;
+      p.innerHTML=`<div class="card"><h3 class="t">${ICON.lock.replace('<svg','<svg width="26" height="26" style="vertical-align:middle"')} الاتصال الآمن <span class="en">Secure connection</span></h3>
+       <p>اتصال تُشفَّر بياناته لحماية تدفقها بين طرفين على الشبكة. غير المشفَّر يسهل التجسس عليه (كلمات المرور والبيانات المالية).</p>
+       <div class="callout info">${ICON.shield}<div><b>الاتصال الآمن يستطيع:</b>${bullets(['منع الجهات الخارجية من الحصول على البيانات السرية.','التحقق من هوية من يتبادل البيانات.','منع الأطراف المجهولة من عرض المعلومات أو تغييرها.'])}</div></div>
+       <p style="margin-top:8px"><b>التشفير:</b> إخفاء المعلومات عن غير المصرّح لهم؛ تُشفَّر في جهاز المُرسِل وتُفَكّ عند المُستقبِل.</p><div id="enc"></div></div>
+       <div class="card"><h3 class="t">${ICON.shield.replace('<svg','<svg width="26" height="26" style="vertical-align:middle"')} إشارات الثقة <span class="en">Trust Signals</span></h3>
+       <p>عناصر تظهر في المواقع لتطمين المتسوقة بأن الموقع تابع لشركة حقيقية وجدير بالثقة وأن أموالها آمنة. تُوضع في صفحات الدفع وصفحات المنتجات.</p>
+       <div class="two"><div class="callout info">${ICON.shield}<div><b>التحقق بواسطة فيزا</b><br>معاملتك محمية من الاحتيال، وتؤكد مصداقية الموقع.</div></div>
+       <div class="callout info">${ICON.check}<div><b>نورتون سيل</b><br>علامة موثوقة تضمن عدم اختراق العملية، بعد مصادقة ديجي سيرت على الموقع.</div></div></div></div>`;
       encDemo($('#enc',p),()=>{F.enc=true;chk()}) }},
     {title:'عمليات الاحتيال عبر الإنترنت',icon:'warning',page:119,render:p=>{
-      p.innerHTML=`<div class="card"><h3 class="t">${ICON.warning.replace('<svg','<svg width="30" height="30" style="vertical-align:middle"')} كيف يحتال المحتالون؟</h3>
-       <p>تستمر شبكة الإنترنت في إعادة تشكيل الطريقة التي نتسوق بها. فإضافة تطبيقات البيع بالتجزئة ومتاجر الوسائط الاجتماعية إلى خيارات المتسوقين جعلت منفذي الجرائم الإلكترونية يفكرون في طرق جديدة للاحتيال.</p>
-       ${bullets(['تبدأ عمليات الاحتيال بإنشاء <b>موقع إلكتروني زائف</b> (الاصطياد الإلكتروني) أو بإنشاء تطبيقات هواتف ذكية احتيالية.','يُنشأ بعض المتاجر الإلكترونية الزائفة بشكل كلي، وتقدم منتجات تبدو أنها من تجار تجزئة موثوق بهم، بالشعارات المألوفة وبعنوان URL يشبه العنوان الحقيقي بدرجة كبيرة.','تُعرض منتجات رائجة بسعر بسيط مقارنةً بالتكلفة المعتادة، مع مزايا مثل الشحن المجاني والتسليم السريع، مما يسهّل استغلال المتسوقين.','بعضهم يوصل بضائع منخفضة الجودة لا تستحق المبلغ المدفوع، وفي أغلب الأحيان لا تصل هذه البضائع أبدًا.','وقد لا تتوقف الخسائر عند هذا الحد؛ فقد يعرض المحتالون مواقع أو تطبيقات أو روابط زائفة في الإعلانات المنبثقة وقسائم الخصومات عبر البريد الإلكتروني، مدعمة ببرامج ضارة تخترق أجهزة الحاسب وتجمع المعلومات الشخصية لاستخدامها في <b>سرقة الهوية</b>.'])}</div>
-       <div class="card"><h3 class="t">بعض إشارات التحذير من عمليات الاحتيال عبر الإنترنت</h3><div class="two">${FLAGS.map(f=>`<div class="callout warn">${ICON[f.icon]}<div><b>${f.t}</b><br>${f.d}</div></div>`).join('')}</div></div>
+      p.innerHTML=`<div class="card"><h3 class="t">${ICON.warning.replace('<svg','<svg width="26" height="26" style="vertical-align:middle"')} كيف يحتال المحتالون؟</h3>
+       ${bullets(['ينشئون <b>موقعًا أو تطبيقًا زائفًا</b> (الاصطياد الإلكتروني) يشبه المتجر الحقيقي بشعاره ورابطه.','يعرضون منتجات رائجة بسعر زهيد وشحن مجاني؛ وقد لا تصل البضاعة أو تكون رديئة.','قد يرسلون روابط زائفة في إعلانات وقسائم بريدية تحمل برامج ضارة تجمع معلوماتك لـ<b>سرقة الهوية</b>.'])}</div>
+       <div class="card"><h3 class="t">إشارات التحذير من الاحتيال</h3><div class="two">${FLAGS.map(f=>`<div class="callout warn">${ICON[f.icon]}<div><b>${f.t}</b><br>${f.d}</div></div>`).join('')}</div></div>
        <div class="card"><h3 class="t">${ICON.magnifier.replace('<svg','<svg width="30" height="30" style="vertical-align:middle"')} لعبة: اكتشفي المتجر المزيف</h3><p class="lead">اضغطي على كل ما يثير الشك في هذه الصفحة (٤ علامات تحذير).</p>
        <div class="scam"><div class="u"><span>⚠️</span>http://super-bargain-shop.app/pay</div><div class="hd"><span class="hs" data-f="0">خصم ٩٠٪ على كل شيء!!!</span></div><div class="bd"><span class="hs" data-f="1">اشتري الان وفر كتييير!!! العرض لا يتكرر لا تضيعي الفرصه</span><br><br>ادفعي بيانات بطاقتك الان ⟵ شحن مجاني + توصيل في ساعه<br><br></div><div class="ft"><span class="hs" data-f="2">للتواصل معنا: bestoffers2026@yahoo.com</span> &nbsp; | &nbsp; <span class="hs" data-f="3" style="direction:ltr">super-bargain-shop.app</span></div></div>
        <div class="flags" id="fl">${FLAGS.map(f=>`<div class="flag">؟ علامة لم تُكتشف بعد</div>`).join('')}</div></div>`;

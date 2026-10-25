@@ -339,7 +339,7 @@ h3.t{font-family:var(--display);font-weight:400;font-size:clamp(19px,2.2vw,26px)
 .enc .node.bad{background:var(--coral-l)}
 .enc code{font-family:Consolas,monospace;direction:ltr;background:#fff;border-radius:6px;padding:0 6px;font-size:14px}
 @media(max-width:700px){.enc{grid-template-columns:1fr 1fr}}
-@media(max-width:820px){
+@media(max-width:820px),(orientation:landscape) and (max-height:600px){
   #app{grid-template-columns:minmax(0,1fr) !important}
   #book{position:fixed;left:0;right:0;bottom:0;height:62vh;z-index:60;border-top:4px solid var(--gold);transform:translateY(105%);transition:transform .35s;display:flex !important}
   #app.sheet-open #book{transform:none}
@@ -350,7 +350,7 @@ h3.t{font-family:var(--display);font-weight:400;font-size:clamp(19px,2.2vw,26px)
 @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
 
 /* ===== phone-friendly layout ===== */
-@media(max-width:820px){
+@media(max-width:820px),(orientation:landscape) and (max-height:600px){
   body{font-size:15px}
   .top{padding:6px 10px;gap:4px 8px;flex-wrap:wrap}
   .top h1{font-size:17px;min-width:0;flex:1 1 100%}
@@ -407,12 +407,12 @@ h3.t{font-family:var(--display);font-weight:400;font-size:clamp(19px,2.2vw,26px)
   .ctable{font-size:12px}
   .ctable td,.ctable th{padding:4px 3px}
 }
-@media(max-width:820px){
+@media(max-width:820px),(orientation:landscape) and (max-height:600px){
   .prods{grid-template-columns:repeat(2,1fr) !important;gap:8px}
   .prod{padding:8px 6px}.prod svg{width:52px;height:52px}
   .shop-body h1{font-size:22px}
 }
-@media(max-width:820px){
+@media(max-width:820px),(orientation:landscape) and (max-height:600px){
   .slide{gap:4px}
   .slide .art{padding:6px;width:62px;height:62px;border-radius:14px;animation:none}
   .slide .big-ico{width:44px !important;height:44px !important}
@@ -426,7 +426,7 @@ h3.t{font-family:var(--display);font-weight:400;font-size:clamp(19px,2.2vw,26px)
 /* ===== final phone layout: right stage bar, fixed bottom nav, Times 12 ===== */
 .foot .stg,#prevBtn{display:none}
 .foot{position:relative;z-index:70}
-@media(max-width:820px){
+@media(max-width:820px),(orientation:landscape) and (max-height:600px){
   html,body{font-family:'Times New Roman',Times,serif;font-size:12px}
   #main{padding-right:0}
   .trail{position:absolute;right:0;z-index:50;width:46px;flex-direction:column;align-items:center;gap:6px;padding:8px 0;overflow-y:auto;overflow-x:hidden;border-bottom:0;border-left:2px solid var(--mist2);box-shadow:-3px 0 10px rgba(20,56,47,.08)}
@@ -464,6 +464,59 @@ h3.t{font-family:var(--display);font-weight:400;font-size:clamp(19px,2.2vw,26px)
   .xc .f b{font-size:40px}
   .cw-clues,.clue{font-size:12px}
   input,textarea,select{font-size:16px}
+}
+
+/* ===== landscape (phones/tablets held sideways) ===== */
+@media(orientation:landscape) and (max-height:600px){
+  #app{grid-template-columns:40% minmax(0,1fr) !important}
+  #book{position:static !important;transform:none !important;height:auto !important;bottom:auto !important;border-top:0 !important}
+  #bookOpen{display:none !important}
+  .book-top{padding:4px 8px}.bk-btn{min-height:32px;padding:2px 10px;font-size:16px}
+  .book-view{padding:6px}
+  .book-nav{padding:3px}
+  .top{flex-wrap:nowrap;padding:4px 10px}
+  .top h1{flex:1 1 auto;font-size:14px;line-height:1.2}.top h1 small{display:none}
+  .hud{width:auto}
+  .ribbon{padding:2px 10px}
+  .foot{position:static !important;box-shadow:none;padding:4px 8px}
+  .foot .btn{min-height:38px}
+  #stageWrap{padding:8px 54px 8px 10px !important}
+  .trail .st i{width:30px;height:30px}
+  .trail{gap:3px;padding:4px 0}
+  .card{padding:10px 12px}
+  #bookOpen{display:none !important}
+  .teacher{bottom:50px !important;transform:scale(.75)}
+}
+.rotate{display:none}
+@media(orientation:portrait) and (max-width:820px){
+  .rotate{display:flex;position:fixed;top:0;left:0;right:0;z-index:200;background:var(--gold);color:#3b2d00;padding:6px 10px;gap:8px;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+  .rotate button{background:#fff;border-radius:999px;padding:0 10px;font-weight:800}
+}
+
+/* ===== scroll arrows ===== */
+.scrollbtns{position:absolute;left:10px;bottom:calc(var(--footh,64px) + 12px);z-index:45;display:flex;flex-direction:column;gap:8px}
+.scrollbtns button{width:46px;height:46px;border-radius:50%;background:var(--ink);color:#fff;font-size:20px;line-height:1;box-shadow:var(--sh);opacity:.88;border:3px solid #fff;touch-action:manipulation}
+.scrollbtns button:active{transform:scale(.92)}
+/* ===== phone: book LEFT, content RIGHT (split view) ===== */
+@media(max-width:820px){
+  #app{grid-template-columns:36% minmax(0,1fr) !important;height:calc(100dvh - var(--footh,56px)) !important}
+  #app.book-off{grid-template-columns:0 minmax(0,1fr) !important}
+  #book{position:relative !important;left:auto !important;right:auto !important;bottom:auto !important;height:auto !important;transform:none !important;border-top:0 !important;transition:none}
+  #app.book-off #book{display:none !important}
+  #bookOpen{display:none !important}
+  #app.book-off ~ #bookOpen{display:block !important;left:8px;bottom:calc(var(--footh,56px) + 70px) !important}
+  .book-top{padding:4px;gap:4px;justify-content:center;flex-wrap:wrap}
+  .book-top b{display:none}
+  .bk-btn{min-width:34px;min-height:34px;padding:2px 8px;font-size:16px}
+  .book-view{padding:4px}
+  .book-nav{padding:4px;gap:4px}
+  .book-nav span{min-width:44px;font-size:12px}
+  .book-nav .bk-btn{min-width:30px}
+  #stageWrap{padding:8px 52px 14px 6px}
+  .scrollbtns{left:6px}
+  .scrollbtns button{width:40px;height:40px}
+  .card{padding:10px 10px}
+  .top h1{font-size:14px}
 }
 </style></head><body>
 <div id="app"></div>
@@ -767,13 +820,16 @@ function exportCSV(){ let a=[];try{a=JSON.parse(localStorage.getItem('res_'+CFG.
 function boot(cfg){
   CFG=cfg; document.title=cfg.title;
   $('#app').insertAdjacentHTML('afterbegin',`<aside id="book" aria-label="الكتاب"><div class="book-top"><b>📖 كتاب الطالبة</b><button class="bk-btn" id="bkZoom" title="تكبير">🔍</button><button class="bk-btn" id="bkHide" title="إخفاء">✕</button></div><div class="book-view" id="bookView"></div><div class="book-nav"><button class="bk-btn" id="bkPrev" aria-label="الصفحة التالية">‹</button><span id="bkLbl"></span><button class="bk-btn" id="bkNext" aria-label="الصفحة السابقة">›</button></div></aside>
-  <main id="main"><header class="top"><h1>${cfg.title}<small>${cfg.lessonNo} · ${cfg.unit}</small></h1><div class="hud" style="visibility:hidden"><span class="pill gold" id="ptsPill">⭐ <b>٠</b> نقطة</span><span class="pill" id="strPill">🔥 <b>٠</b></span><span class="pill timer" id="tmr"></span><span class="pill" id="tot"></span></div></header><nav class="trail" id="trail" aria-label="مراحل الدرس"></nav><div class="ribbon" id="ribbon"></div><div id="stageWrap"><div id="stage"></div></div><footer class="foot"><button class="btn ghost" id="prevBtn" disabled>→ السابقة</button><span class="pill" id="tName" style="background:var(--mist2);color:var(--ink)"></span><span class="msg" id="footMsg"></span><span class="stg" id="stg"></span><button class="btn" id="nextBtn" disabled>المرحلة التالية ←</button></footer></main>`);
+  <main id="main"><header class="top"><h1>${cfg.title}<small>${cfg.lessonNo} · ${cfg.unit}</small></h1><div class="hud" style="visibility:hidden"><span class="pill gold" id="ptsPill">⭐ <b>٠</b> نقطة</span><span class="pill" id="strPill">🔥 <b>٠</b></span><span class="pill timer" id="tmr"></span><span class="pill" id="tot"></span></div></header><nav class="trail" id="trail" aria-label="مراحل الدرس"></nav><div class="ribbon" id="ribbon"></div><div id="stageWrap"><div id="stage"></div></div><div class="scrollbtns"><button id="upBtn" aria-label="أعلى الصفحة" title="للأعلى (نقرتان: أول الصفحة)">▲</button><button id="dnBtn" aria-label="أسفل الصفحة" title="للأسفل (نقرتان: آخر الصفحة)">▼</button></div><footer class="foot"><button class="btn ghost" id="prevBtn" disabled>→ السابقة</button><span class="pill" id="tName" style="background:var(--mist2);color:var(--ink)"></span><span class="msg" id="footMsg"></span><span class="stg" id="stg"></span><button class="btn" id="nextBtn" disabled>المرحلة التالية ←</button></footer></main>`);
   document.body.insertAdjacentHTML('beforeend',`<button id="bookOpen">📖 الكتاب</button><div id="toast" role="status"></div><canvas id="fx"></canvas>`);
   showBook(0); $('#bkPrev').onclick=()=>showBook(bi+1); $('#bkNext').onclick=()=>showBook(bi-1);
   $('#bkZoom').onclick=()=>zoom(CFG.book.pages[bi].src);
-  $('#bkHide').onclick=()=>{ $('#app').classList.remove('sheet-open'); if(innerWidth>820){$('#app').classList.add('book-off');$('#bookOpen').classList.add('show')} };
+  $('#bkHide').onclick=()=>{ $('#app').classList.remove('sheet-open'); if(true){$('#app').classList.add('book-off');$('#bookOpen').classList.add('show')} };
   $('#bookOpen').onclick=()=>{ $('#app').classList.remove('book-off'); $('#app').classList.toggle('sheet-open'); $('#bookOpen').classList.remove('show') };
-  $('#nextBtn').onclick=nextStage; renderTrail(); tmr=setInterval(tick,1000);
+  document.body.insertAdjacentHTML('beforeend','<div class="rotate" id="rot">📱↻ للحصول على أفضل عرض أدِيري الجهاز أفقيًا <button id="rotX">حسنًا</button></div>'); $('#rotX').onclick=()=>$('#rot').remove(); setTimeout(()=>$('#rot')&&$('#rot').remove(),12000);
+  $('#nextBtn').onclick=nextStage; (()=>{ const w=$('#stageWrap'); const mv=d=>w.scrollBy({top:d*Math.max(120,w.clientHeight*.75),behavior:'smooth'});
+    $('#upBtn').onclick=()=>mv(-1); $('#dnBtn').onclick=()=>mv(1);
+    $('#upBtn').ondblclick=()=>w.scrollTo({top:0,behavior:'smooth'}); $('#dnBtn').ondblclick=()=>w.scrollTo({top:w.scrollHeight,behavior:'smooth'}); })(); renderTrail(); tmr=setInterval(tick,1000);
   if(ST.teacher){ document.body.insertAdjacentHTML('beforeend',`<div class="teacher"><b>وضع المعلمة</b><button class="btn sm ghost" id="tSkip">تخطّي المرحلة</button><button class="btn sm ghost" id="tCsv">نتائج الجهاز CSV</button></div>`); $('#tSkip').onclick=()=>{ if(ST.stage<0){ST.name='معلمة';ST.t0=Date.now();$('#nextBtn').style.display='';$('#prevBtn').style.display='';$('.hud').style.visibility='visible';goStage(0)} else nextStage() }; $('#tCsv').onclick=exportCSV }
   welcome();
 }

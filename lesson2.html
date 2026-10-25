@@ -593,6 +593,33 @@ html[data-theme=dark] .book-view{background:#0B1424}
 html[data-theme=contrast] .book-view img{outline:2px solid #fff}
 html[data-theme=dark] .chip,html[data-theme=contrast] .chip{color:#E4DAFF;background:#2B2352}
 @media(max-width:820px){.a11y-panel{max-width:calc(100vw - 64px)}}
+
+/* ================= wide layout + collapsible book panel ================= */
+#stage{max-width:1760px}
+#stageWrap{padding-left:clamp(12px,1.6vw,28px)}
+@media(min-width:1100px){.opts:not(.tf){grid-template-columns:repeat(2,minmax(0,1fr))}}
+#app{transition:grid-template-columns .32s ease}
+#app.book-off{grid-template-columns:0px minmax(0,1fr)}
+#book{min-width:0}
+#app.book-off #book{display:flex !important;visibility:hidden;transition:visibility 0s linear .32s;border:0}
+#bkHide .lbl{font-size:calc(14px*var(--fs,1));font-weight:700}
+.book-top b{white-space:nowrap}
+#bookOpen{display:none !important;position:fixed;right:14px;left:auto;bottom:96px;z-index:90;align-items:center;gap:8px;background:var(--ink);color:#fff;border:3px solid var(--card);border-radius:999px;padding:8px 16px 8px 14px;box-shadow:var(--sh);font-weight:800;font-size:calc(15px*var(--fs,1));transition:background .2s,box-shadow .2s,transform .12s}
+#bookOpen svg{width:26px;height:26px;flex:none}
+#app.book-off ~ #bookOpen{display:flex !important;animation:bkin .3s ease}
+@keyframes bkin{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+#bookOpen:hover{background:var(--sage-d);box-shadow:0 8px 20px rgba(20,50,92,.28)}
+#bookOpen:active{transform:scale(.96)}
+@media(max-width:820px){
+  #app.book-off{grid-template-columns:0px minmax(0,1fr) !important}
+  #app.book-off #book{display:flex !important}
+  #bookOpen{right:54px !important;left:auto !important;bottom:calc(var(--footh,56px) + 70px) !important;padding:6px 12px 6px 10px}
+  #app.book-off ~ #bookOpen{display:flex !important}
+  #bkHide .lbl{display:none}
+  #bookOpen svg{width:22px;height:22px}
+}
+@media (prefers-reduced-motion:reduce){#app,#book{transition:none !important}}
+html,body{overflow:clip}#app{overflow:hidden;grid-template-rows:minmax(0,1fr)}#book,#main{min-height:0}
 </style></head><body>
 <div id="app"></div>
 <script>
@@ -690,7 +717,9 @@ function showBook(i){ const P=CFG.book.pages; bi=Math.max(0,Math.min(P.length-1,
   v.innerHTML=`<img alt="صفحة ${P[bi].n} من الكتاب" src="${P[bi].src}">`; $('#bkLbl').textContent='ص '+AR(P[bi].n); $('#bkPrev').disabled=bi===P.length-1; $('#bkNext').disabled=bi===0; v.scrollTop=0;
   $('img',v).onclick=()=>zoom(P[bi].src) }
 function setBook(n){ const i=CFG.book.pages.findIndex(p=>p.n==n); if(i>=0&&i!==bi)showBook(i) }
-function openBook(n){ setBook(n); $('#app').classList.remove('book-off'); $('#app').classList.add('sheet-open') }
+function setBookOpen(open,focus){ const a=$('#app'),b=$('#book'),o=$('#bookOpen'); if(!a||!b)return; a.classList.toggle('book-off',!open); b.inert=!open; b.setAttribute('aria-hidden',open?'false':'true'); o.setAttribute('aria-expanded',open?'true':'false');
+  if(focus)setTimeout(()=>(open?$('#bkHide'):o).focus({preventScroll:true}),open?340:30); setTimeout(()=>window.layoutBars&&layoutBars(),350) }
+function openBook(n){ setBook(n); setBookOpen(true) }
 function zoom(src){ const z=document.createElement('div');z.className='zoom';z.innerHTML=`<button aria-label="إغلاق">✕</button><img src="${src}" alt="">`;z.onclick=()=>z.remove();document.body.appendChild(z) }
 document.addEventListener('click',e=>{const b=e.target.closest('[data-page]');if(b){openBook(+b.dataset.page)}});
 
@@ -894,13 +923,13 @@ function exportCSV(){ let a=[];try{a=JSON.parse(localStorage.getItem('res_'+CFG.
 /* ---------- boot ---------- */
 function boot(cfg){
   CFG=cfg; document.title=cfg.title;
-  $('#app').insertAdjacentHTML('afterbegin',`<aside id="book" aria-label="الكتاب"><div class="book-top"><b>📖 كتاب الطالبة</b><button class="bk-btn" id="bkZoom" title="تكبير">🔍</button><button class="bk-btn" id="bkHide" title="إخفاء">✕</button></div><div class="book-view" id="bookView"></div><div class="book-nav"><button class="bk-btn" id="bkPrev" aria-label="الصفحة التالية">‹</button><span id="bkLbl"></span><button class="bk-btn" id="bkNext" aria-label="الصفحة السابقة">›</button></div></aside>
+  $('#app').insertAdjacentHTML('afterbegin',`<aside id="book" aria-label="الكتاب"><div class="book-top"><b>📖 كتاب الطالبة</b><button class="bk-btn" id="bkZoom" title="تكبير">🔍</button><button class="bk-btn" id="bkHide" title="إغلاق الكتاب" aria-label="إغلاق الكتاب">✕<span class="lbl"> إغلاق الكتاب</span></button></div><div class="book-view" id="bookView"></div><div class="book-nav"><button class="bk-btn" id="bkPrev" aria-label="الصفحة التالية">‹</button><span id="bkLbl"></span><button class="bk-btn" id="bkNext" aria-label="الصفحة السابقة">›</button></div></aside>
   <main id="main"><header class="top"><h1>${cfg.title}<small>${cfg.lessonNo} · ${cfg.unit}</small></h1><div class="hud" style="visibility:hidden"><span class="pill gold" id="ptsPill">⭐ <b>٠</b> نقطة</span><span class="pill" id="strPill">🔥 <b>٠</b></span><span class="pill timer" id="tmr"></span><span class="pill" id="tot"></span></div></header><nav class="trail" id="trail" aria-label="مراحل الدرس"></nav><div class="ribbon" id="ribbon"></div><div id="stageWrap"><div id="stage"></div></div><div class="scrollbtns"><button id="upBtn" aria-label="أعلى الصفحة" title="للأعلى (نقرتان: أول الصفحة)">▲</button><button id="dnBtn" aria-label="أسفل الصفحة" title="للأسفل (نقرتان: آخر الصفحة)">▼</button></div><footer class="foot"><button class="btn ghost" id="prevBtn" disabled>→ السابقة</button><span class="pill" id="tName" style="background:var(--mist2);color:var(--ink)"></span><span class="msg" id="footMsg"></span><span class="stg" id="stg"></span><button class="btn" id="nextBtn" disabled>المرحلة التالية ←</button></footer></main>`);
-  document.body.insertAdjacentHTML('beforeend',`<button id="bookOpen">📖 الكتاب</button><div id="toast" role="status"></div><canvas id="fx"></canvas>`);
+  document.body.insertAdjacentHTML('beforeend',`<button id="bookOpen" type="button" title="فتح الكتاب" aria-label="فتح الكتاب" aria-expanded="false">${ICON.book}<span>فتح الكتاب</span></button><div id="toast" role="status"></div><canvas id="fx"></canvas>`);
   showBook(0); $('#bkPrev').onclick=()=>showBook(bi+1); $('#bkNext').onclick=()=>showBook(bi-1);
   $('#bkZoom').onclick=()=>zoom(CFG.book.pages[bi].src);
-  $('#bkHide').onclick=()=>{ $('#app').classList.remove('sheet-open'); if(true){$('#app').classList.add('book-off');$('#bookOpen').classList.add('show')} };
-  $('#bookOpen').onclick=()=>{ $('#app').classList.remove('book-off'); $('#app').classList.toggle('sheet-open'); $('#bookOpen').classList.remove('show') };
+  $('#bkHide').onclick=()=>setBookOpen(false,true);
+  $('#bookOpen').onclick=()=>setBookOpen(true,true); setBookOpen(true);
   document.body.insertAdjacentHTML('beforeend','<div class="rotate" id="rot">📱↻ للحصول على أفضل عرض أدِيري الجهاز أفقيًا <button id="rotX">حسنًا</button></div>'); $('#rotX').onclick=()=>$('#rot').remove(); setTimeout(()=>$('#rot')&&$('#rot').remove(),12000);
   $('#nextBtn').onclick=nextStage; (()=>{ const w=$('#stageWrap'); const mv=d=>w.scrollBy({top:d*Math.max(120,w.clientHeight*.75),behavior:'smooth'});
     $('#upBtn').onclick=()=>mv(-1); $('#dnBtn').onclick=()=>mv(1);
